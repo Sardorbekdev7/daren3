@@ -6,9 +6,11 @@ from .forms import ContactForm
 
 def contact(request):
     form = ContactForm()
+    print('work')
     if request.method == 'POST':
         print(request.POST)
-        form = ContactForm(data=request.POST)
+        print(form)
+        form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('.')

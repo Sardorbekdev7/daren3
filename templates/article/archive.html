@@ -30,7 +30,7 @@
                     	<div class="col-lg-6">
                             <div class="single_catagory_post post_2">
                                 <div class="category_post_img">
-                                    <img src="{{ article.image.url }}" alt>
+                                    <img style="height: 300px" src="{{ article.image.url }}" alt>
                                     <a href="/" class="category_btn">{{ article.category }}</a>
                                 </div>
                                 <div class="post_text_1 pr_30">
@@ -56,7 +56,9 @@
                             <h1>No articles</h1>
                         </div>
                     {% endif %}
+                
                 </div>
+                {% include 'pagination.html' %}
             </div>
             <div class="col-lg-4">
                 <div class="sidebar_widget">

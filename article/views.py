@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from .models import Article, Comment, Tags, Category
 from .forms import CommentForm
+from django.core.paginator import Paginator
 # Create your views here.
 
 
@@ -22,6 +23,10 @@ def article_archive(request):
     popular_articles = Article.objects.order_by('-id')
     categories = Category.objects.all()
     tags = Tags.objects.all()
+
+    paginator = Paginator(articles, per_page=2)
+    articles = paginator.get_page(request.GET.get('page'))
+
     q = request.GET.get('q')
     cat = request.GET.get('cat')
     tag = request.GET.get('tag')
@@ -42,11 +47,12 @@ def article_archive(request):
 
 def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
+    categories = Category.objects.all()
+    tags = Tags.objects.all()
     form = CommentForm()
     q = request.GET.get('q')
     if q:
-        article = Article.objects.filter(title__contains=q)
-        resolve = resolve_url('article:list')
+        resolve = resolve_url('/list/?q='+q)
         return redirect(resolve)
     if request.method == 'POST':
         print(request.POST)
@@ -59,7 +65,9 @@ def article_detail(request, slug):
             return redirect('article:detail', slug=article.slug)
     ctx = {
         'article': article,
-        'form': form
+        'form': form,
+        'categories': categories,
+        'tags': tags
     }
 
     return render(request, 'article/single-blog.html', ctx)

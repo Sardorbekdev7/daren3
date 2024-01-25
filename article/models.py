@@ -41,6 +41,7 @@ class Article(models.Model):
     image = models.ImageField(upload_to='article/')
     slug = models.SlugField()
     modified_date = models.DateTimeField(auto_now=True)
+    is_quote = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self):
         return self.title
